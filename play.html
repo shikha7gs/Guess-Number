@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess the Number</title>
+    <link rel="icon" id="favicon" type="image/x-icon" href="default.ico">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            gap: 5vh;
+        }
+
+        .main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5vh;
+            flex-direction: column;
+        }
+
+        #discription {
+            font-size: x-large;
+            text-align: center;
+        }
+
+        #numberInput {
+            height: 5vh;
+            font-size: larger;
+            text-align: center;
+        }
+
+        .input {
+            display: flex;
+            gap: 3vh;
+            flex-direction: column;
+        }
+
+        .input button {
+            background-color: rgb(83, 243, 91);
+            padding: 5px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Guess The Number!</h1>
+    <div class="main">
+        <div id="discription">-_- 404</div>
+        <div class="input">
+            <input value="0" min="0" max="100" maxlength="3" id="numberInput" type="number">
+            <button onclick="check()">Check</button>
+        </div>
+    </div>
+    <script>
+        let noOfAttempt = 0
+        const input = document.getElementById("numberInput")
+        const randomgeneratedNumber = Math.floor(Math.random() * 100)
+        console.log(randomgeneratedNumber)
+        let haveWon = false
+
+        const check = () => {
+            if (!haveWon) {
+                const value = Number.parseInt(input.value)
+                const discription = document.getElementById("discription")
+                let output = ""
+                if (value > randomgeneratedNumber) {
+                    output = "Big";
+                } else if (value < randomgeneratedNumber) {
+                    output = "Small";
+                } else if (value === randomgeneratedNumber) {
+                    output = `Equal 🥳(${noOfAttempt} attempts huh)`;
+                    wonGame()
+                } else {
+                    output = "-_- 404";
+                }
+                discription.innerHTML = output
+                noOfAttempt += 1
+            } else {
+                input.disabled = true
+                input.value = randomgeneratedNumber
+            }
+        }
+
+        const wonGame = () => {
+            haveWon = true
+            document.getElementById('favicon').setAttribute('href', 'win.ico');
+            const img = document.createElement("img")
+            const audio = document.createElement("audio")
+            audio.src = "yay.mp3"
+            img.src = "happy-dance.gif"
+            document.body.append(img)
+            document.body.append(audio)
+            audio.play()
+            audio.addEventListener('ended', () => {
+                audio.currentTime = 0;
+                audio.play();
+            });
+        }
+
+    </script>
+</body>
+
+</html>
